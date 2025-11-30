@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ScienceAtlas — خمسة حضارات قديمة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#061226; --card:#0e1a2a; --muted:#9fb0c8; --glass: rgba(255,255,255,0.03);
+      --radius:14px; --gap:16px; --maxw:1200px; --text:#e9f2fb;
+    }
+    /* Civilization palettes */
+    .civ-maya{ --primary:#0b6b66; --accent:#ffd166; }
+    .civ-egypt{ --primary:#8a3b22; --accent:#ffd6a5; }
+    .civ-greek{ --primary:#143e63; --accent:#d4e9ff; }
+    .civ-china{ --primary:#8b1619; --accent:#ffd1c2; }
+    .civ-iraq{ --primary:#4b3510; --accent:#f0d89a; }
+
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Cairo',system-ui;background:linear-gradient(180deg,var(--bg),#021021);color:var(--text);-webkit-font-smoothing:antialiased}
+    .wrap{max-width:var(--maxw);margin:22px auto;padding:20px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ffd166,#ff9f1c);display:grid;place-items:center;font-weight:800;color:#04111a}
+    nav{display:flex;gap:10px}
+    nav a{padding:8px 12px;border-radius:10px;background:transparent;color:var(--text);font-weight:600;border:1px solid rgba(255,255,255,0.04)}
+
+    .hero{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-top:40px; margin-bottom: 15px;}
+    .panel-card{background:linear-gradient(180deg,var(--card),rgba(255,255,255,0.01));padding:20px;border-radius:var(--radius);box-shadow:0 8px 40px rgba(0,0,0,0.6)}
+    h1{margin:0;font-size:28px}
+    p.lead{color:var(--muted);margin-top:10px}
+
+    /* tabs */
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .tab-btn{cursor:pointer;padding:10px 14px;border-radius:12px;border:none;background:rgba(255,255,255,0.08);color:var(--text);font-weight:700}
+.tab-btn.active{background:var(--accent);color:#f3f3f3;box-shadow:0 10px 30px rgba(0,0,0,0.6);transform:translateY(-4px)}
+    .tab-btn[data-target].active{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+
+    /* content grid */
+    .content{display:grid;grid-template-columns:1fr 360px;gap:20px;margin-top:18px}
+    .content .left{min-width:0}
+    h2{margin:0 0 8px 0}
+    .section{margin-bottom:16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px}
+    ul.clean{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    ul.clean li{padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);display:flex;gap:12px;align-items:center}
+    .meta{font-size:13px;color:var(--muted)}
+
+    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .gallery img{width:100%;height:140px;object-fit:cover;border-radius:8px;cursor:pointer}
+
+    .sidebar .card{position:sticky;top:24px}
+    table.roster{width:100%;border-collapse:collapse;margin-top:8px}
+    table.roster th, table.roster td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right}
+
+    footer{margin-top:26px;color:var(--muted);text-align:center}
+
+    /* lightbox */
+    .lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:999}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:92%;max-height:86%;border-radius:8px}
+    .lb-close{position:absolute;right:18px;top:18px;background:#fff;color:#111;padding:8px 10px;border-radius:8px;cursor:pointer}
+
+    /* responsive */
+    @media (max-width:1000px){.hero{grid-template-columns:1fr}.content{grid-template-columns:1fr}.gallery img{height:120px}}
+
+    /* accent colored CTA */
+    .cta{display:inline-block;padding:10px 14px;border-radius:12px;font-weight:700}
+    .btn-maya{background:linear-gradient(90deg,var(--accent),#ffd88a);color:#04111a}
+    .btn-egypt{background:linear-gradient(90deg,var(--accent),#fff1d6);color:#04111a}
+    .btn-greek{background:linear-gradient(90deg,var(--accent),#e9f6ff);color:#04111a}
+    .btn-china{background:linear-gradient(90deg,var(--accent),#ffe1da);color:#04111a}
+    .btn-iraq{background:linear-gradient(90deg,var(--accent),#fff3d8);color:#04111a}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" style="padding:0; background:none; box-shadow:none; transform:none;">
+  <img src="Photos/logo.png" alt="Logo" style="width:56px;height:56px;border-radius:12px;object-fit:cover;">
+</div>
+        <div>
+          <div style="font-weight:800">ScienceAtlas</div>
+          <div class="meta" style="font-size:13px">خمسة حضارات قديمة</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#civilizations">الحضارات</a>
+        <a href="#gallery">المعرض</a>
+        <a href="#about">فريق المشروع</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="panel-card">
+        <h1>خمسة حضارات قديمة</h1>
+        <p class="lead">صفحات مفصلة ومنظّمة: لمحة عامة، علماء ومخترعون، اكتشافات وابتكارات، ومعرض صور لكل حضارة.</p>
+        <div class="tabs" role="tablist" aria-label="تبديل الحضارات">
+          <button class="tab-btn active" data-target="maya">المايا</button>
+          <button class="tab-btn" data-target="egypt">مصر</button>
+          <button class="tab-btn" data-target="greece">اليونان</button>
+          <button class="tab-btn" data-target="china">الصين</button>
+          <button class="tab-btn" data-target="iraq">بلاد الرافدين</button>
+        </div>
+      </div>
+
+      <aside class="panel-card sidebar">
+        <h3 style="margin:0">ملاحظات</h3>
+        
+        <div class="card" style="margin-top:12px">
+          <strong>كيفية العرض</strong>
+          <p class="meta" style="margin-top:6px">انسخ الملف ووضعه داخل نفس المجلد الذي يحتوي على مجلد <code>Photos</code> ثم افتح الملف في متصفح.</p>
+        </div>
+      </aside>
+    </section>
+
+    <main id="civilizations">
+
+      <!-- MAYA -->
+      <article id="maya" class="panel-card civ-maya" data-civ="maya">
+        <div class="content">
+          <div class="left">
+            <h2>المايا — لمحة عامة</h2>
+            <p class="meta">تمركزت حضارة المايا في جنوب المكسيك (يوكاتان، تشياباس)، وغواتيمالا، وبليز، وأجزاء من هندوراس والسلفادور. اشتهرت بالهندسة، التقاويم الفلكية المتقدمة، والكتابة التصويرية.</p>
+
+            <section class="section">
+              <h3>العلماء والمفكرون</h3>
+              <ul class="clean">
+                <li><strong>Pakal the Great</strong><div class="meta">قائد مدينة بالينكي، دعم العلوم والفلك وبنى ضريحاً مهيباً. (أضف سيرة مفصّلة لاحقًا)</div></li>
+                <li><strong>Yax K'uk' Mo</strong><div class="meta">مؤسس سلالة كوبان — مهّد لتطور العمارة والعلوم المحلية.</div></li>
+                <li><strong>Chak Ek</strong><div class="meta">كاهن فلكي ساهم في تحسين جداول حركة كوكب الزهرة.</div></li>
+                <li><strong>Ah Ts'ib</strong><div class="meta">كاتب-رياضياتي، متخصص في تدوين الحسابات والتقويم.</div></li>
+              </ul>
+            </section>
+
+            <section class="section">
+              <h3>الاكتشافات والابتكارات</h3>
+              <ul class="clean">
+                <li><strong>نظام الصفر الحسابي</strong><div class="meta">المايا طوروا مفهوم المكان للرقم صفر مما ساعد التقاويم والحسابات الدقيقة.</div></li>
+                <li><strong>التقاويم الفلكية (الطويل والتزولكين)</strong><div class="meta">تقويمات دقيقة استخدمت لحساب الأحداث السماوية والمواسم الطقسية.</div></li>
+                <li><strong>الهندسة الحجرية والأهرامات المدرّجة</strong><div class="meta">بناء معابد ضخمة مثل تيكال وبالينكي ودقة محوريّة تعكس معارف فلكية.</div></li>
+                <li><strong>نظام الطرق المرتفعة (Sacbeob)</strong><div class="meta">شبكات طرق حجرية ربطت المدن وسهلت التجارة والدين.</div></li>
+                <li><strong>الطب العشبي والكاكاو</strong><div class="meta">استخدام الأعشاب والكاكاو في الطقوس والعلاج.</div></li>
+              </ul>
+            </section>
+
+          </div>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin:0">معرض المايا</h4>
+              <div class="gallery" id="gallery-maya">
+                <img src="Photos/Maya-Disk.png" alt="Maya Disk" data-full="Photos/Maya-Disk.png">
+                <img src="Photos/mayaPyramids.jpg" alt="maya pyramids" data-full="Photos/mayaPyramids.jpg">
+                <img src="Photos/Pakal the Great.jpeg" alt="Pakal the Great" data-full="Photos/Pakal the Great.jpeg">
+                <img src="Photos/Yax K’uk’ Mo.jpg" alt="Yax K’uk’ Mo" data-full="Photos/Yax K’uk’ Mo.jpg">
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- EGYPT -->
+      <article id="egypt" class="panel-card civ-egypt" data-civ="egypt" style="display:none">
+        <div class="content">
+          <div class="left">
+            <h2>مصر القديمة — لمحة عامة</h2>
+            <p class="meta">حضارة نهر النيل في شمال شرق أفريقيا — تميّزت بالهندسة المعمارية (الأهرامات)، الكتابة الهيروغليفية، الطب، والفلك. استمرت عبر عصور عدة: الدولة القديمة، الدولة الوسطى، والدولة الحديثة.</p>
+
+            <section class="section">
+              <h3>العلماء والمبدعون</h3>
+              <ul class="clean">
+                <li><strong>إمحوتب</strong><div class="meta">مهندس وطبيب ووزير زوسر — يُعتبر من أوائل المهندسين المعماريين والأطباء المسجّلين.</div></li>
+                <li><strong>نخت</strong><div class="meta">كاتب وفلكي — ساهم في رصد النجوم وتنظيم الشعائر.</div></li>
+                <li><strong>حتب بتاح</strong><div class="meta">حكيم وفيلسوف قديم ترك تعاليم للأخلاق والإدارة.</div></li>
+              </ul>
+            </section>
+
+            <section class="section">
+              <h3>الاكتشافات والابتكارات</h3>
+              <ul class="clean">
+                <li><strong>الهيروغليفية</strong><div class="meta">نظام كتابة معقد مستخدم في الأهرامات والبرديات.</div></li>
+                <li><strong>الهندسة الأهرامية</strong><div class="meta">تقنيات متقدمة لبناء أهرامات عظيمة ودقة هندسية مبدعة.</div></li>
+                <li><strong>التحنيط</strong><div class="meta">ممارسات متقدمة للحفظ التشريحي والجنائزي.</div></li>
+                <li><strong>نظام الري الفعّال</strong><div class="meta">الاستغلال المنهجي لفيضان النيل لدعم الزراعة.</div></li>
+              </ul>
+            </section>
+
+          </div>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin:0">معرض مصر</h4>
+<div class="gallery">
+  <img src="Photos/egPyramids.jpg" data-full="Photos/egPyramids.jpg">
+  <img src="Photos/egypt1.jpg" data-full="Photos/egypt1.jpg">
+  <img src="Photos/egypt2.jpg" data-full="Photos/egypt2.jpg">
+  <img src="Photos/egypt3.jpg" data-full="Photos/egypt3.jpg">
+  <img src="Photos/egypt4.jpg" data-full="Photos/egypt4.jpg">
+  <img src="Photos/egypt5.jpg" data-full="Photos/egypt5.jpg">
+  <img src="Photos/Nakht.jpg" data-full="Photos/Nakht.jpg">
+  <img src="Photos/hotop-petah.jpg" data-full="Photos/hotop-petah.jpg">
+  <img src="Photos/Hieroglyphs.jpg" data-full="Photos/Hieroglyphs.jpg">
+  <img src="Photos/mummy.jpg" data-full="Photos/mummy.jpg">
+</div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- GREECE -->
+      <article id="greece" class="panel-card civ-greek" data-civ="greece" style="display:none">
+        <div class="content">
+          <div class="left">
+            <h2>اليونان القديمة — لمحة عامة</h2>
+            <p class="meta">حضارة المدن-الدول: أثينا، إسبرطة... أثّرت في الفلسفة، الديمقراطية، الرياضيات، والعلوم التي صاغت أساس الحضارة الغربية.</p>
+
+            <section class="section">
+              <h3>علماء ومفكرون بارزون</h3>
+              <ul class="clean">
+                <li><img src="Photos/aflatoon.jpeg" style="width:48px;height:48px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>أفلاطون</strong><div class="meta">فيلسوف مؤسس الأكاديمية — أعماله شكلت أساس الفلسفة الغربية.</div></li>
+                <li><img src="Photos/Socrates.jpg" style="width:48px;height:48px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>سقراط</strong><div class="meta">مؤسس المنهج السقراطي للحوار والبحث عن الحقيقة.</div></li>
+                <li><img src="Photos/Aristotle.jpeg" style="width:48px;height:48px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>أرسطو</strong><div class="meta">عالم وفيلسوف مؤسس مناهج منطقية وعلمية.</div></li>
+                <li><img src="Photos/Pythagoras.jpeg" style="width:48px;height:48px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>فيثاغورس</strong><div class="meta">رياضياتي ونظرية فيثاغورس — أثر كبير في الهندسة.</div></li>
+                <li><img src="Photos/Archimedes.jpg" style="width:48px;height:48px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>أرخميدس</strong><div class="meta">عالم ومخترع قدّم مبادئ هامة في الميكانيكا والطفو.</div></li>
+              </ul>
+            </section>
+
+            <section class="section">
+              <h3>اكتشافات وابتكارات</h3>
+              <ul class="clean">
+                <li><strong>عداد المسافات (Odometer)</strong><div class="meta">أداة لقياس المسافات — مرجع لتطوير أدوات قياس الحركة.</div></li>
+                <li><strong>الطاحونة المائية</strong><div class="meta">استغلال طاقة المياه للطحن والإنتاج.</div></li>
+                <li><strong>المنجنيق والرافعات</strong><div class="meta">ابتكارات هندسية في الحصار والبناء.</div></li>
+                <li><strong>الهيبوكوست</strong><div class="meta">نظام تدفئة أرضي مهندس لتدفئة المباني.</div></li>
+              </ul>
+            </section>
+
+          </div>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin:0">معرض اليونان</h4>
+              <div class="gallery">
+                <img src="Photos/Odometer.jpg" alt="Odometer" data-full="Photos/Odometer.jpg">
+                <img src="Photos/WaterMill.jpg" alt="Water Mill" data-full="Photos/WaterMill.jpg">
+                <img src="Photos/Catapult.jpg" alt="Catapult" data-full="Photos/Catapult.jpg">
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- CHINA -->
+      <article id="china" class="panel-card civ-china" data-civ="china" style="display:none">
+        <div class="content">
+          <div class="left">
+            <h2>الصين القديمة — لمحة عامة</h2>
+            <p class="meta">حضارة ذات تاريخ طويل أثرّت في الفلسفة (الكونفوشيوسية والطاوية)، والاختراعات الجوهرية مثل البوصلة والورق والطباعة والبارود.</p>
+
+            <section class="section">
+              <h3>علماء ومفكرون</h3>
+              <ul class="clean">
+                <li><img src="Photos/Kong Qiu.jpeg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>كونغ تسي (كونفوشيوس)</strong><div class="meta">فيلسوف أخلاقي أثر على نظم الحكم والتعليم في شرق آسيا.</div></li>
+              </ul>
+            </section>
+
+            <section class="section">
+              <h3>الاختراعات</h3>
+              <ul class="clean">
+                <li><strong>الإبرة الممغنطة (البوصلة)</strong><div class="meta">طورّت الملاحة وأثّرت على الاكتشافات البحرية لاحقًا.</div></li>
+                <li><strong>الورق والطباعة</strong><div class="meta">ثورة في نشر المعرفة وإدارة المعلومات.</div></li>
+                <li><strong>البارود</strong><div class="meta">ابتكار غيّر التموضع العسكري والكيمياء لاحقًا.</div></li>
+              </ul>
+            </section>
+
+          </div>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin:0">معرض الصين</h4>
+              <div class="gallery">
+                <img src="Photos/Chineseneedle.jpg" alt="Needle" data-full="Photos/Chineseneedle.jpg">
+                <img src="Photos/Kong Qiu.jpeg" alt="Kong Qiu" data-full="Photos/Kong Qiu.jpeg">
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- IRAQ / MESOPOTAMIA -->
+      <article id="iraq" class="panel-card civ-iraq" data-civ="iraq" style="display:none">
+        <div class="content">
+          <div class="left">
+            <h2>بلاد الرافدين — لمحة عامة</h2>
+            <p class="meta">مهد الحضارات في وادي الرافدين (سومر، أكّاد، بابل، آشور). ابتكارات عديدة أثرت على العالم: الكتابة المسمارية، العجلة، القوانين المبكرة، الفلك، والزقورات.</p>
+
+            <section class="section">
+              <h3>حكام وعلماء بارزون</h3>
+              <ul class="clean">
+                <li><img src="Photos/Ur-Nammu.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>Ur-Nammu</strong><div class="meta">مؤسس قانون أور — وضع نظام قانوني مبكر منظّم للحياة المدنية.</div></li>
+                <li><img src="Photos/Hammurabi.jpeg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>حمورابي</strong><div class="meta">مشرّع شريعة حمورابي (282 مادة) — أسس لمفهوم القانون المكتوب.</div></li>
+                <li><img src="Photos/Nabopolassar.jpeg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;margin-left:8px"> <strong>نبوبلاصر</strong><div class="meta">مؤسس الإمبراطورية البابلية الحديثة وداعم للعلوم والفنون.</div></li>
+                <li><strong>Nabu-rimanni</strong><div class="meta">فلكي بابلي طور جداول فلكية دقيقة اعتمدتها الأجيال اللاحقة.</div></li>
+                <li><strong>Berossus</strong><div class="meta">مؤرخ بابلي نقل المعرفة البابلية للعالم اليوناني.</div></li>
+              </ul>
+            </section>
+
+            <section class="section">
+              <h3>الاكتشافات والاختراعات</h3>
+              <ul class="clean">
+                <li><strong>الكتابة المسمارية</strong><div class="meta">السومريون — أول نظام كتابة مسجّل على ألواح طينية (حوالي 3200 ق.م.).</div></li>
+                <li><strong>العجلة</strong><div class="meta">السومريون — ابتُكرت نحو 3500 ق.م. وغيرت النقل والصناعة.</div></li>
+                <li><strong>النظام العددي الستيني</strong><div class="meta">البابليون — أساس تقسيم الزمن والزوايا (60،360).</div></li>
+                <li><strong>شريعة حمورابي</strong><div class="meta">قانون مكتوب نقل العدالة إلى مستوى مؤسساتي موحّد.</div></li>
+                <li><strong>الزقورات</strong><div class="meta">هياكل دينية إدارية ترمز للاتصال بالسماء وألهمت عمارة لاحقة.</div></li>
+                <li><strong>نظام الري والقنوات</strong><div class="meta">قنوات منظمة سمحت بالزراعة واسعة النطاق في بيئة جافة.</div></li>
+                <li><strong>مكتبة آشور بانيبال</strong><div class="meta">أرشفة آلاف الألواح المسمارية — نموذج أول للمكتبات المنظمة.</div></li>
+              </ul>
+            </section>
+
+          </div>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin:0">معرض بلاد الرافدين</h4>
+              <div class="gallery">
+                <img src="Photos/Ur-Nammu.jpg" alt="Ur-Nammu" data-full="Photos/Ur-Nammu.jpg">
+                <img src="Photos/Hammurabi.jpeg" alt="Hammurabi" data-full="Photos/Hammurabi.jpeg">
+                <img src="Photos/Nabopolassar.jpeg" alt="Nabopolassar" data-full="Photos/Nabopolassar.jpeg">
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+    </main>
+
+    <section id="gallery" style="margin-top:18px">
+      <div class="panel-card">
+        <h3 style="margin:0">المعرض الكامل</h3>
+        <p class="meta" style="margin-top:8px">اضغط على أي صورة لفتحها بحجم أكبر.</p>
+        <div style="margin-top:12px" class="gallery" id="gallery-all">
+          <img src="Photos/Maya-Disk.png" alt="Maya-Disk" data-full="Photos/Maya-Disk.png">
+          <img src="Photos/mayaPyramids.jpg" alt="maya pyramids" data-full="Photos/mayaPyramids.jpg">
+          <img src="Photos/Pakal the Great.jpeg" alt="Pakal the Great" data-full="Photos/Pakal the Great.jpeg">
+          <img src="Photos/Yax K’uk’ Mo.jpg" alt="Yax K’uk’ Mo" data-full="Photos/Yax K’uk’ Mo.jpg">
+          <img src="Photos/Chak Ek.png" alt="Chak Ek" data-full="Photos/Chak Ek.png">
+          <img src="Photos/Ah Ts'ib.jpeg" alt="Ah Ts'ib" data-full="Photos/Ah Ts'ib.jpeg">
+          <img src="Photos/Pok ta pok.jpg" alt="Pok ta pok" data-full="Photos/Pok ta pok.jpg">
+          <img src="Photos/egPyramids.jpg" alt="eg Pyramids" data-full="Photos/egPyramids.jpg">
+          <img src="Photos/aflatoon.jpeg" alt="Aflatoon" data-full="Photos/aflatoon.jpeg">
+          <img src="Photos/Socrates.jpg" alt="Socrates" data-full="Photos/Socrates.jpg">
+          <img src="Photos/Aristotle.jpeg" alt="Aristotle" data-full="Photos/Aristotle.jpeg">
+          <img src="Photos/Pythagoras.jpeg" alt="Pythagoras" data-full="Photos/Pythagoras.jpeg">
+          <img src="Photos/Archimedes.jpg" alt="Archimedes" data-full="Photos/Archimedes.jpg">
+          <img src="Photos/Odometer.jpg" alt="Odometer" data-full="Photos/Odometer.jpg">
+          <img src="Photos/WaterMill.jpg" alt="WaterMill" data-full="Photos/WaterMill.jpg">
+          <img src="Photos/Catapult.jpg" alt="Catapult" data-full="Photos/Catapult.jpg">
+          <img src="Photos/Chineseneedle.jpg" alt="Chineseneedle" data-full="Photos/Chineseneedle.jpg">
+          <img src="Photos/Kong Qiu.jpeg" alt="Kong Qiu" data-full="Photos/Kong Qiu.jpeg">
+          <img src="Photos/Ur-Nammu.jpg" alt="Ur-Nammu" data-full="Photos/Ur-Nammu.jpg">
+          <img src="Photos/Hammurabi.jpeg" alt="Hammurabi" data-full="Photos/Hammurabi.jpeg">
+          <img src="Photos/Nabopolassar.jpeg" alt="Nabopolassar" data-full="Photos/Nabopolassar.jpeg">
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top:18px">
+      <div class="panel-card">
+        <h3 style="margin:0">فريق المشروع — ScienceAtlas</h3>
+        <p class="meta" style="margin-top:8px">قائمة أعضاء الفريق وبيانات الكلية (منظم بطريقة أكاديمية جاهزة للتسليم):</p>
+
+        <table class="roster">
+          <thead>
+            <tr><th>الاسم</th><th>الرقم الجامعي</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>يوسف السيد احمد محمد حسن</td><td>20263021536</td></tr>
+            <tr><td>محمد شمس الدين احمد محمد</td><td>20263021394</td></tr>
+            <tr><td>هنا احمد فاروق محمد</td><td>20263022511</td></tr>
+            <tr><td>هنا ايهاب محمد بشير حسن</td><td>20263022512</td></tr>
+            <tr><td>مي حسن احمد صالح</td><td>20263012474</td></tr>
+            <tr><td>يوسف محمد نعيم الشايب</td><td>20263021564</td></tr>
+            <tr><td>عمر محمد احمد اسماعيل هلال</td><td>20263051298</td></tr>
+          </tbody>
+        </table>
+
+     
+      </div>
+    </section>
+
+    <footer>
+      © ScienceAtlas — جميع الحقوق محفوظة
+    </footer>
+
+  </div>
+
+  <div class="lightbox" id="lightbox"><div class="lb-close" id="lb-close">إغلاق ✕</div><img src="" alt=""></div>
+
+  <script>
+    // Tabs
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const panels = {maya:document.getElementById('maya'), egypt:document.getElementById('egypt'), greece:document.getElementById('greece'), china:document.getElementById('china'), iraq:document.getElementById('iraq')};
+    tabBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tabBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const t = btn.dataset.target;
+        Object.keys(panels).forEach(k=>{ panels[k].style.display = (k===t)?'block':'none' })
+      })
+    });
+
+    // Lightbox for galleries
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = lightbox.querySelector('img');
+    document.querySelectorAll('img[data-full]').forEach(img=>{
+      img.addEventListener('click', ()=>{ lbImg.src = img.dataset.full; lightbox.classList.add('open'); document.body.style.overflow='hidden' })
+    })
+    document.getElementById('lb-close').addEventListener('click', ()=>{ lightbox.classList.remove('open'); document.body.style.overflow='' })
+    lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox) { lightbox.classList.remove('open'); document.body.style.overflow='' } })
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ lightbox.classList.remove('open'); document.body.style.overflow='' } })
+
+    // Accessibility: set first tab active on load
+  </script>
+</body>
+</html>
